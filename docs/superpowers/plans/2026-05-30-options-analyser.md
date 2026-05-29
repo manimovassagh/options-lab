@@ -6,7 +6,8 @@
 
 **Architecture:** Python FastAPI backend with a `DataProvider` abstraction over yfinance; `py_vollib` for Black-Scholes math; React + TypeScript (Vite) frontend with Recharts for P&L charts and TanStack Query for API calls.
 
-**Tech Stack:** Python 3.11+, FastAPI, Pydantic v2, yfinance, py_vollib, numpy, pytest, httpx; React 18, TypeScript, Vite, Recharts, TanStack Query v5, Tailwind CSS
+**Tech Stack:** Python 3.11+, FastAPI, Pydantic v2, yfinance, py_vollib, numpy, pytest, httpx; React 18, TypeScript, Vite, Recharts, TanStack Query v5, Tailwind CSS  
+**Package manager:** `uv` (replaces pip/venv everywhere)
 
 ---
 
@@ -84,32 +85,30 @@ options_analyser/
 ## Task 1: Backend Project Setup
 
 **Files:**
-- Create: `backend/requirements.txt`
+- Create: `backend/pyproject.toml`
 - Create: `backend/main.py`
 - Create: `backend/tests/conftest.py`
 
-- [ ] **Step 1: Create requirements.txt**
-
-```
-fastapi==0.115.0
-uvicorn[standard]==0.30.0
-pydantic==2.7.0
-yfinance==0.2.40
-py_vollib==1.0.1
-numpy==1.26.4
-httpx==0.27.0
-pytest==8.2.0
-pytest-asyncio==0.23.0
-```
-
-- [ ] **Step 2: Create virtualenv and install**
+- [ ] **Step 1: Initialise backend with uv**
 
 ```bash
 cd backend
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python -c "import fastapi, yfinance, py_vollib; print('OK')"
+uv init --no-workspace
+```
+
+This creates `pyproject.toml`. Then add dependencies:
+
+```bash
+uv add fastapi "uvicorn[standard]" pydantic yfinance py_vollib numpy httpx
+uv add --dev pytest pytest-asyncio
+```
+
+Expected: `pyproject.toml` and `uv.lock` created, `.venv/` auto-created.
+
+- [ ] **Step 2: Verify install**
+
+```bash
+uv run python -c "import fastapi, yfinance, py_vollib; print('OK')"
 ```
 
 Expected: prints `OK`.
@@ -324,7 +323,7 @@ def test_leg_rejects_invalid_direction():
 - [ ] **Step 7: Run tests**
 
 ```bash
-cd backend && pytest tests/test_schemas.py -v
+cd backend && uv run pytest tests/test_schemas.py -v
 ```
 
 Expected: 3 tests pass.
@@ -367,7 +366,7 @@ def test_mock_satisfies_protocol():
 - [ ] **Step 2: Run test — verify it fails**
 
 ```bash
-cd backend && pytest tests/test_provider_protocol.py -v
+cd backend && uv run pytest tests/test_provider_protocol.py -v
 ```
 
 Expected: `ModuleNotFoundError`.
@@ -388,7 +387,7 @@ class DataProvider(Protocol):
 - [ ] **Step 4: Run test — verify it passes**
 
 ```bash
-cd backend && pytest tests/test_provider_protocol.py -v
+cd backend && uv run pytest tests/test_provider_protocol.py -v
 ```
 
 Expected: 1 test passes.
@@ -525,7 +524,7 @@ def test_deep_otm_call_delta_near_zero():
 - [ ] **Step 2: Run — verify fails**
 
 ```bash
-cd backend && pytest tests/test_black_scholes.py -v
+cd backend && uv run pytest tests/test_black_scholes.py -v
 ```
 
 Expected: `ModuleNotFoundError`.
@@ -553,7 +552,7 @@ def calc_greeks(flag: str, S: float, K: float, t: float, r: float, sigma: float)
 - [ ] **Step 4: Run — verify passes**
 
 ```bash
-cd backend && pytest tests/test_black_scholes.py -v
+cd backend && uv run pytest tests/test_black_scholes.py -v
 ```
 
 Expected: 6 tests pass.
@@ -652,7 +651,7 @@ def pnl_curve_at_date(legs: list[Leg], underlying_price: float,
 - [ ] **Step 7: Run P&L tests**
 
 ```bash
-cd backend && pytest tests/test_pnl.py -v
+cd backend && uv run pytest tests/test_pnl.py -v
 ```
 
 Expected: 4 tests pass.
@@ -762,7 +761,7 @@ def get_strategy_templates() -> list[StrategyTemplate]:
 - [ ] **Step 10: Run strategy tests**
 
 ```bash
-cd backend && pytest tests/test_strategies.py -v
+cd backend && uv run pytest tests/test_strategies.py -v
 ```
 
 Expected: 6 tests pass.
@@ -770,7 +769,7 @@ Expected: 6 tests pass.
 - [ ] **Step 11: Run full backend suite**
 
 ```bash
-cd backend && pytest tests/ -v
+cd backend && uv run pytest tests/ -v
 ```
 
 Expected: All tests pass.
@@ -859,7 +858,7 @@ def test_get_strategies():
 - [ ] **Step 2: Run — verify fails**
 
 ```bash
-cd backend && pytest tests/test_routes.py -v
+cd backend && uv run pytest tests/test_routes.py -v
 ```
 
 Expected: 404s or import errors.
@@ -998,7 +997,7 @@ def health():
 - [ ] **Step 8: Run all backend tests**
 
 ```bash
-cd backend && pytest tests/ -v
+cd backend && uv run pytest tests/ -v
 ```
 
 Expected: All tests pass.
@@ -1806,7 +1805,7 @@ git commit -m "feat: StrategySelector and LearnPanel — V1 complete"
 
 ```bash
 # Terminal 1 — backend
-cd backend && source venv/bin/activate && uvicorn main:app --reload --port 8000
+cd backend && uv run uvicorn main:app --reload --port 8000
 
 # Terminal 2 — frontend
 cd frontend && npm run dev
