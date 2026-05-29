@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary:   #0f1923;
+  --bg-secondary: #1a2535;
+  --bg-card:      #1e2d3d;
+  --border:       #2a3f55;
+  --text-primary: #e2e8f0;
+  --text-muted:   #8899aa;
+  --accent:       #4fc3f7;
+  --profit:       #4caf50;
+  --loss:         #ef5350;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg-primary); color: var(--text-primary);
+       font-family: system-ui, sans-serif; margin: 0; }
