@@ -1,3 +1,4 @@
+import math
 import yfinance as yf
 from datetime import date
 from api.schemas.quote import QuoteResponse
@@ -59,8 +60,8 @@ class YFinanceProvider:
                     iv=round(iv, 4),
                     delta=g["delta"], gamma=g["gamma"],
                     theta=g["theta"], vega=g["vega"],
-                    open_interest=int(row.get("openInterest") or 0),
-                    volume=int(row.get("volume") or 0),
+                    open_interest=int(v) if (v := float(row.get("openInterest") or 0)) and not math.isnan(v) else 0,
+                    volume=int(v) if (v := float(row.get("volume") or 0)) and not math.isnan(v) else 0,
                 ))
         return ChainResponse(
             ticker=ticker, expiry=expiry, days_to_expiry=_dte(expiry),
