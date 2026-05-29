@@ -12,7 +12,7 @@ import type { OptionContract } from '../types/options'
 type Tab = 'chain' | 'analyser' | 'learn'
 
 export function Dashboard() {
-  const [ticker, setTicker]              = useState<string | null>(null)
+  const [ticker, setTicker]              = useState<string | null>('AAPL')
   const [expiry, setExpiry]              = useState<string | null>(null)
   const [activeTab, setActiveTab]        = useState<Tab>('chain')
   const [contract, setContract]          = useState<OptionContract | null>(null)

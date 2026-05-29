@@ -3,17 +3,35 @@
 @tailwind utilities;
 
 :root {
-  --bg-primary:   #0f1923;
-  --bg-secondary: #1a2535;
-  --bg-card:      #1e2d3d;
-  --border:       #2a3f55;
-  --text-primary: #e2e8f0;
-  --text-muted:   #8899aa;
-  --accent:       #4fc3f7;
-  --profit:       #4caf50;
-  --loss:         #ef5350;
+  --bg-primary:   #0a0f1a;
+  --bg-secondary: #111827;
+  --bg-card:      #161f2e;
+  --border:       #1e3048;
+  --text-primary: #e8eef5;
+  --text-muted:   #6b7f95;
+  --accent:       #38bdf8;
+  --accent-glow:  rgba(56,189,248,0.15);
+  --profit:       #22c55e;
+  --loss:         #f43f5e;
+  --warning:      #f59e0b;
 }
 
 * { box-sizing: border-box; }
-body { background: var(--bg-primary); color: var(--text-primary);
-       font-family: system-ui, sans-serif; margin: 0; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* Range input */
+input[type="range"] { height: 4px; }
+input[type="range"]::-webkit-slider-thumb { width: 14px; height: 14px; }

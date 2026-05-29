@@ -11,7 +11,7 @@ interface Props {
 }
 
 export function Header({ ticker, activeTab, onTickerChange, onTabChange }: Props) {
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState(ticker || '')
   const { data: quote } = useQuote(ticker)
 
   const submit = (e: React.FormEvent) => {

@@ -15,18 +15,15 @@ export function PnLChart({ pnlAtExpiry, pnlToday, pnlMidpoint, breakevens, under
     'Today': todayMap.get(p.price) ?? null,
     'Midpoint': midMap.get(p.price) ?? null,
   }))
-  const all = [...pnlAtExpiry, ...pnlToday, ...pnlMidpoint].map(p => p.pnl)
-  const pad = (Math.max(...all) - Math.min(...all)) * 0.15
-
   return (
     <div className="p-4 rounded" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
       <h3 className="text-sm font-medium mb-3" style={{ color: 'var(--accent)' }}>P&L Chart</h3>
-      <ResponsiveContainer width="100%" height={240}>
+      <ResponsiveContainer width="100%" height={260}>
         <LineChart data={data} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(42,63,85,0.6)" />
-          <XAxis dataKey="price" tick={{ fontSize: 10, fill: '#8899aa' }} tickFormatter={v => `$${v}`} />
-          <YAxis tick={{ fontSize: 10, fill: '#8899aa' }} tickFormatter={v => `$${v}`}
-                 domain={[Math.min(...all) - pad, Math.max(...all) + pad]} />
+          <XAxis dataKey="price" tick={{ fontSize: 10, fill: '#8899aa' }} tickFormatter={v => `$${Number(v).toFixed(0)}`} />
+          <YAxis tick={{ fontSize: 10, fill: '#8899aa' }} tickFormatter={v => `$${Number(v).toFixed(0)}`}
+                 domain={['auto', 'auto']} />
           <Tooltip contentStyle={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: 4 }}
                    labelFormatter={v => `Price: $${v}`} formatter={(v: unknown) => [`$${(v as number)?.toFixed(2)}`, '']} />
           <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)" strokeDasharray="4 2" />
