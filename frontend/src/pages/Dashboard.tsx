@@ -79,7 +79,7 @@ export function Dashboard() {
         onTickerChange={handleTickerChange}
         onTabChange={setActiveTab} />
       <main className="flex flex-1 overflow-hidden">
-        <div className="w-96 border-r overflow-auto p-4" style={{ borderColor: 'var(--border)' }}>
+        <div style={{ width: 520, borderRight: '1px solid var(--border)', overflowY: 'auto', padding: '12px 10px' }}>
           {ticker
             ? <ChainTable ticker={ticker} expiry={expiry} onExpiryChange={setExpiry}
                 onContractSelect={handleContractSelect} />
@@ -88,7 +88,7 @@ export function Dashboard() {
               </p>
           }
         </div>
-        <div className="flex-1 overflow-auto p-6">
+        <div style={{ flex: 1, overflowY: 'auto', padding: '12px 16px' }}>
           {activeTab === 'analyser' && (
             <>
               <StrategySelector selected={strategy} onChange={setStrategy} />

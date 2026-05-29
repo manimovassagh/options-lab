@@ -3,17 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --bg-primary:   #0a0f1a;
-  --bg-secondary: #111827;
-  --bg-card:      #161f2e;
-  --border:       #1e3048;
-  --text-primary: #e8eef5;
-  --text-muted:   #6b7f95;
-  --accent:       #38bdf8;
-  --accent-glow:  rgba(56,189,248,0.15);
-  --profit:       #22c55e;
-  --loss:         #f43f5e;
-  --warning:      #f59e0b;
+  --bg-primary:    #070d14;
+  --bg-secondary:  #0d1520;
+  --bg-card:       #111c2b;
+  --bg-hover:      #162236;
+  --border:        #1c2f45;
+  --border-bright: #264260;
+  --text-primary:  #e2eaf4;
+  --text-secondary:#a8bbd0;
+  --text-muted:    #526a80;
+  --accent:        #00d4ff;
+  --accent-dim:    rgba(0,212,255,0.12);
+  --accent-glow:   rgba(0,212,255,0.25);
+  --profit:        #00e676;
+  --profit-dim:    rgba(0,230,118,0.12);
+  --loss:          #ff3d5a;
+  --loss-dim:      rgba(255,61,90,0.12);
+  --warning:       #ffb300;
+  --call-color:    #00b4d8;
+  --put-color:     #f72585;
 }
 
 * { box-sizing: border-box; }
@@ -21,17 +29,32 @@
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Inter', 'SF Pro Display', system-ui, sans-serif;
   margin: 0;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
-/* Range input */
-input[type="range"] { height: 4px; }
-input[type="range"]::-webkit-slider-thumb { width: 14px; height: 14px; }
+input[type="range"] {
+  -webkit-appearance: none;
+  height: 3px;
+  background: var(--border-bright);
+  border-radius: 2px;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+  cursor: pointer;
+}
+
+.glow-accent { box-shadow: 0 0 12px var(--accent-glow); }
+.glow-profit { box-shadow: 0 0 12px rgba(0,230,118,0.3); }
+.glow-loss   { box-shadow: 0 0 12px rgba(255,61,90,0.3); }
