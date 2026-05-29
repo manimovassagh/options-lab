@@ -3,6 +3,8 @@ from api.schemas.strategy import StrategyTemplate, LegTemplate
 
 
 def identify_strategy(legs: list[Leg]) -> str:
+    if len(legs) == 2 and any(l.type == "call" and l.direction == "short" for l in legs):
+        return "Covered Call"
     if len(legs) != 1:
         return "Custom"
     leg = legs[0]

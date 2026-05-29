@@ -27,3 +27,13 @@ def test_long_call_max_profit_is_none():
 def test_long_call_breakeven():
     be = calc_breakevens([_leg("call","long",strike=190.0,premium=1.45)])
     assert abs(be[0] - 191.45) < 0.01
+
+def test_get_strategy_templates_returns_all_four():
+    from calc.strategies import get_strategy_templates
+    templates = get_strategy_templates()
+    names = [t.name for t in templates]
+    assert "Long Call" in names
+    assert "Long Put" in names
+    assert "Cash-Secured Put" in names
+    assert "Covered Call" in names
+    assert len(templates) == 4
