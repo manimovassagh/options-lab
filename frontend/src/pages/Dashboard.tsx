@@ -4,6 +4,8 @@ import { ChainTable } from '../components/ChainTable/ChainTable'
 import { PnLChart } from '../components/PnLChart/PnLChart'
 import { GreeksPanel } from '../components/GreeksPanel/GreeksPanel'
 import { TimeframeSlider } from '../components/TimeframeSlider/TimeframeSlider'
+import { StrategySelector } from '../components/StrategySelector/StrategySelector'
+import { LearnPanel } from '../components/LearnPanel/LearnPanel'
 import { useAnalyse } from '../api/client'
 import type { OptionContract } from '../types/options'
 
@@ -14,6 +16,7 @@ export function Dashboard() {
   const [expiry, setExpiry]              = useState<string | null>(null)
   const [activeTab, setActiveTab]        = useState<Tab>('chain')
   const [contract, setContract]          = useState<OptionContract | null>(null)
+  const [strategy, setStrategy]          = useState('Long Call')
   const [underlyingPrice, setUnderlying] = useState(0)
   const [analysisDate, setAnalysisDate]  = useState(new Date().toISOString().split('T')[0])
 
@@ -58,6 +61,7 @@ export function Dashboard() {
         <div className="flex-1 overflow-auto p-6">
           {activeTab === 'analyser' && (
             <>
+              <StrategySelector selected={strategy} onChange={setStrategy} />
               {isPending && <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Analysing...</p>}
               {analysis && !isPending && (
                 <>
@@ -77,11 +81,7 @@ export function Dashboard() {
               )}
             </>
           )}
-          {activeTab === 'learn' && (
-            <p className="text-sm mt-8 text-center" style={{ color: 'var(--text-muted)' }}>
-              Learn panel — next task.
-            </p>
-          )}
+          {activeTab === 'learn' && <LearnPanel analysis={analysis ?? undefined} />}
         </div>
       </main>
     </div>
