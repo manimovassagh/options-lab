@@ -7,17 +7,25 @@ export function StrategySelector({ selected, onChange }: Props) {
   const description = data?.strategies.find(s => s.name === selected)?.description
 
   return (
-    <div className="flex items-start gap-3 mb-4">
-      <div className="flex items-center gap-2">
-        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Strategy</span>
-        <select value={selected} onChange={e => onChange(e.target.value)}
-          className="text-xs px-2 py-1 rounded"
-          style={{ background: 'var(--bg-card)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}>
-          {data?.strategies.map(s => <option key={s.name} value={s.name}>{s.name}</option>)}
-        </select>
+    <div style={{ marginBottom: 12 }}>
+      <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 7, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Strategy</div>
+      <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: description ? 7 : 0 }}>
+        {data?.strategies.map(s => (
+          <button key={s.name} onClick={() => onChange(s.name)} style={{
+            background: selected === s.name ? 'var(--accent-dim)' : 'var(--bg-card)',
+            color: selected === s.name ? 'var(--accent)' : 'var(--text-muted)',
+            border: `1px solid ${selected === s.name ? 'var(--accent-glow)' : 'var(--border)'}`,
+            borderRadius: 5,
+            padding: '4px 11px',
+            fontSize: 11,
+            fontWeight: selected === s.name ? 700 : 400,
+            cursor: 'pointer',
+            transition: 'all 0.12s',
+          }}>{s.name}</button>
+        ))}
       </div>
       {description && (
-        <p className="text-xs mt-0.5 flex-1" style={{ color: 'var(--text-muted)' }}>{description}</p>
+        <p style={{ fontSize: 11, color: 'var(--text-muted)', margin: 0, lineHeight: 1.4 }}>{description}</p>
       )}
     </div>
   )

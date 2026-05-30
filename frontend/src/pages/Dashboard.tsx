@@ -6,6 +6,7 @@ import { GreeksPanel } from '../components/GreeksPanel/GreeksPanel'
 import { TimeframeSlider } from '../components/TimeframeSlider/TimeframeSlider'
 import { StrategySelector } from '../components/StrategySelector/StrategySelector'
 import { LearnPanel } from '../components/LearnPanel/LearnPanel'
+import { PositionCard } from '../components/PositionCard/PositionCard'
 import { useChain, useAnalyse } from '../api/client'
 import type { OptionContract } from '../types/options'
 
@@ -23,7 +24,6 @@ export function Dashboard() {
   const { mutate: analyse, data: analysis, isPending } = useAnalyse()
   const { data: chain } = useChain(ticker, expiry)
 
-  // Auto-select ATM call on first chain load for a given ticker
   const autoSelectedFor = useRef<string | null>(null)
   useEffect(() => {
     if (!chain || !ticker || autoSelectedFor.current === ticker) return
@@ -79,21 +79,33 @@ export function Dashboard() {
         onTickerChange={handleTickerChange}
         onTabChange={setActiveTab} />
       <main className="flex flex-1 overflow-hidden">
+        {/* Left: chain panel */}
         <div style={{ width: 520, borderRight: '1px solid var(--border)', overflowY: 'auto', padding: '12px 10px' }}>
           {ticker
-            ? <ChainTable ticker={ticker} expiry={expiry} onExpiryChange={setExpiry}
+            ? <ChainTable ticker={ticker} expiry={expiry} selected={contract}
+                onExpiryChange={setExpiry}
                 onContractSelect={handleContractSelect} />
             : <p className="text-sm mt-8 text-center" style={{ color: 'var(--text-muted)' }}>
                 Enter a ticker to load the option chain.
               </p>
           }
         </div>
+
+        {/* Right: analyser panel */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '12px 16px' }}>
           {activeTab === 'analyser' && (
             <>
+              {contract && expiry && (
+                <PositionCard
+                  contract={contract}
+                  ticker={ticker ?? ''}
+                  expiry={expiry}
+                  underlyingPrice={underlyingPrice}
+                />
+              )}
               <StrategySelector selected={strategy} onChange={setStrategy} />
               {isPending && (
-                <p className="text-sm mt-4" style={{ color: 'var(--text-muted)' }}>Loading analysis...</p>
+                <p className="text-sm mt-4" style={{ color: 'var(--text-muted)' }}>Loading analysis…</p>
               )}
               {analysis && !isPending && (
                 <>
